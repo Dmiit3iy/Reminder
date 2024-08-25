@@ -23,6 +23,8 @@ public class User {
     private String lastName;
     private String email;
     private String telegram;
+    @NonNull
+    private String password;
     @OneToMany(mappedBy = "user")
     @Cascade(value = org.hibernate.annotations.CascadeType.DELETE)
     private List<Reminder> reminders = new ArrayList<>();
