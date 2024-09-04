@@ -23,7 +23,7 @@ public interface ReminderService {
      *
      * @return
      */
-    Reminder get();
+   List <Reminder> get();
 
     /**
      * Получение последнего созданного напоминаия

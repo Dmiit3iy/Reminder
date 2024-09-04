@@ -31,6 +31,16 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    public List<Reminder> get() {
+        return reminderRepository.findAll();
+    }
+
+    @Override
+    public Reminder getLast() {
+        return reminderRepository.findFirstByIdOrderByIdAsc().orElseThrow(()->new IllegalArgumentException("No reminders have been created yet"));
+    }
+
+    @Override
     public List<Reminder> get(String title) {
         return reminderRepository.findByTitle(title);
     }
