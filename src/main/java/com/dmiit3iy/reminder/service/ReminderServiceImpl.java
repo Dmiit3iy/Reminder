@@ -37,7 +37,7 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Reminder getLast() {
-        return reminderRepository.findFirstByIdOrderByIdAsc().orElseThrow(()->new IllegalArgumentException("No reminders have been created yet"));
+        return reminderRepository.findTopByOrderByIdAsc().orElseThrow(() -> new IllegalArgumentException("No reminders have been created yet"));
     }
 
     @Override
@@ -63,6 +63,13 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public Reminder delete(long id) {
         Reminder reminder = this.get(id);
+        reminderRepository.delete(reminder);
+        return reminder;
+    }
+
+    @Override
+    public Reminder delete() {
+        Reminder reminder = this.getLast();
         reminderRepository.delete(reminder);
         return reminder;
     }

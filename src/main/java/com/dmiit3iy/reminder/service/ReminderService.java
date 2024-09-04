@@ -23,7 +23,7 @@ public interface ReminderService {
      *
      * @return
      */
-   List <Reminder> get();
+    List<Reminder> get();
 
     /**
      * Получение последнего созданного напоминаия
@@ -73,6 +73,12 @@ public interface ReminderService {
      * @return
      */
     Reminder delete(long id);
+
+    /**
+     * Удаление последнего напоминания
+     * @return
+     */
+    Reminder delete();
 
     /**
      * Обновление напоминания
