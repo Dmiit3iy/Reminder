@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReminderRepository extends JpaRepository<Reminder, Long> {
+    Optional<Reminder> findTopById();
     List<Reminder> findByTitle(String title);
 
     List<Reminder> findByDescription(String description);
