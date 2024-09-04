@@ -3,6 +3,7 @@ package com.dmiit3iy.reminder.controller;
 import com.dmiit3iy.reminder.DTO.ResponseResult;
 import com.dmiit3iy.reminder.model.Reminder;
 import com.dmiit3iy.reminder.service.ReminderService;
+import com.sun.xml.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class ReminderController {
     private final ReminderService reminderService;
-    
+
+    /**
+     * Создание напоминания
+     * @param reminder
+     * @return
+     */
     @PostMapping("/reminder/create")
     public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder) {
         try {
@@ -24,6 +30,16 @@ public class ReminderController {
         }
     }
 
+//    @DeleteMapping("/reminder/delete")
+//    public ResponseEntity<ResponseResult<Reminder>> delete(){
+//        //TODO нуже метод для получения последнего напоминания
+//    }
+
+    /**
+     * Удаление напоминания по id
+     * @param id
+     * @return
+     */
     @DeleteMapping("/reminder/delete/{id}")
     public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id) {
         try {
