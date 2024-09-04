@@ -19,6 +19,20 @@ public interface ReminderService {
     Reminder get(long id);
 
     /**
+     * Получение списка всех напоминаний
+     *
+     * @return
+     */
+    Reminder get();
+
+    /**
+     * Получение последнего созданного напоминаия
+     *
+     * @return
+     */
+    Reminder getLast();
+
+    /**
      * Получение списка напоминаний по заголовку
      *
      * @param title
