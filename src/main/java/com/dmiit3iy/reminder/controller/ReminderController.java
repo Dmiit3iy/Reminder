@@ -3,7 +3,6 @@ package com.dmiit3iy.reminder.controller;
 import com.dmiit3iy.reminder.DTO.ResponseResult;
 import com.dmiit3iy.reminder.model.Reminder;
 import com.dmiit3iy.reminder.service.ReminderService;
-import com.sun.xml.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,7 @@ public class ReminderController {
 
     /**
      * Создание напоминания
+     *
      * @param reminder
      * @return
      */
@@ -30,13 +30,19 @@ public class ReminderController {
         }
     }
 
-//    @DeleteMapping("/reminder/delete")
-//    public ResponseEntity<ResponseResult<Reminder>> delete(){
-//        //TODO нуже метод для получения последнего напоминания
-//    }
+    @DeleteMapping("/reminder/delete")
+    public ResponseEntity<ResponseResult<Reminder>> delete() {
+        try {
+            Reminder reminder = reminderService.delete();
+            return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     /**
      * Удаление напоминания по id
+     *
      * @param id
      * @return
      */
