@@ -13,7 +13,8 @@ import java.util.Optional;
 
 @Repository
 public interface ReminderRepository extends JpaRepository<Reminder, Long> {
-    Optional<Reminder> findFirstByIdOrderByIdAsc();
+    Reminder findTopByOrderByIdAsc();
+
     List<Reminder> findByTitle(String title);
 
     List<Reminder> findByDescription(String description);
