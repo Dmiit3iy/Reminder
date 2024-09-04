@@ -1,6 +1,8 @@
 package com.dmiit3iy.reminder.service;
 
 import com.dmiit3iy.reminder.model.Reminder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,6 +27,19 @@ public interface ReminderService {
      */
     List<Reminder> get();
 
+    /**
+     * Получение списка с пагинацией
+     * @param pageable
+     * @return
+     */
+    Page<Reminder> get(Pageable pageable);
+
+    /**
+     * Получение списка с пагинацией с указанием параметров
+     * @param
+     * @return
+     */
+    Page<Reminder> get(int page, int size);
     /**
      * Получение последнего созданного напоминаия
      *

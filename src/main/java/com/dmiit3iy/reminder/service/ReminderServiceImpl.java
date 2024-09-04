@@ -4,6 +4,9 @@ import com.dmiit3iy.reminder.model.Reminder;
 import com.dmiit3iy.reminder.repository.ReminderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -33,6 +36,17 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public List<Reminder> get() {
         return reminderRepository.findAll();
+    }
+
+    @Override
+    public Page<Reminder> get(Pageable pageable) {
+        return reminderRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Reminder> get(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return reminderRepository.findAll(pageable);
     }
 
     @Override
