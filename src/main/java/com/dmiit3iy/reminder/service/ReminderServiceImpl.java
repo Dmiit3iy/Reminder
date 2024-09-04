@@ -2,7 +2,7 @@ package com.dmiit3iy.reminder.service;
 
 import com.dmiit3iy.reminder.model.Reminder;
 import com.dmiit3iy.reminder.repository.ReminderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +11,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ReminderServiceImpl implements ReminderService {
-    private ReminderRepository reminderRepository;
-
-    @Autowired
-    public void setReminderRepository(ReminderRepository reminderRepository) {
-        this.reminderRepository = reminderRepository;
-    }
+    private final ReminderRepository reminderRepository;
 
     @Override
     public void add(Reminder reminder) {
