@@ -29,9 +29,9 @@ public class User {
 
     private String telegram;
 
-    @JsonIgnore
     @NonNull
     private String password;
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reminder> reminders = new ArrayList<>();
 
