@@ -39,8 +39,8 @@ public class ReminderController {
      * @param size
      * @return
      */
-    @GetMapping("/list")
-    public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(@RequestParam("page") int page, @RequestParam("size") int size) {
+    @GetMapping("/list/{idUser}")
+    public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(@RequestParam("page") int page, @RequestParam("size") int size,@PathVariable ("idUser") int idUser) {
         try {
             Page<Reminder> pageRemind = reminderService.get(page, size);
             return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
@@ -55,8 +55,8 @@ public class ReminderController {
      * @param reminder
      * @return
      */
-    @PostMapping("/reminder/create")
-    public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder) {
+    @PostMapping("/reminder/create/{idUser}")
+    public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder, @PathVariable ("idUser") int idUser) {
         try {
             reminderService.add(reminder);
             return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
@@ -65,8 +65,8 @@ public class ReminderController {
         }
     }
 
-    @DeleteMapping("/reminder/delete")
-    public ResponseEntity<ResponseResult<Reminder>> delete() {
+    @DeleteMapping("/reminder/delete/{idUser}")
+    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable ("idUser") int idUser) {
         try {
             Reminder reminder = reminderService.delete();
             return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
@@ -81,8 +81,8 @@ public class ReminderController {
      * @param id
      * @return
      */
-    @DeleteMapping("/reminder/delete/{id}")
-    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id) {
+    @DeleteMapping("/reminder/delete/{id}/{idUser}")
+    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id, @PathVariable ("idUser") int idUser) {
         try {
             Reminder reminder = reminderService.delete(id);
             return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
