@@ -21,3 +21,14 @@ content-type:application/json
   "telegram": "@kol",
   "password": "123"
 }
+
+###
+POST http://localhost:8080/domain/api/v1/reminder/create
+content-type: application/json
+
+{
+  "title": "Пробе пера",
+  "description": "Много много строчек разных мыслей",
+  "remind": "2024-09-17T10-00-00",
+  "user": ""
+}
