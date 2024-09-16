@@ -23,7 +23,7 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public void add(Reminder reminder, long userID) {
         try {
-            User user=userService.get(userID);
+            User user = userService.get(userID);
             reminder.setUser(user);
             reminderRepository.save(reminder);
         } catch (DataIntegrityViolationException e) {
@@ -54,18 +54,38 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    public Page<Reminder> get(int page, int size, long userID, String by) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Reminder> reminderPage = Page.empty();
+        switch (by) {
+            case "time":
+                reminderPage = reminderRepository.findAllSortedByTime(userID, pageable);
+                break;
+            case "date":
+                reminderPage = reminderRepository.findAllSortedByDate(userID, pageable);
+                break;
+            case "title":
+                reminderPage = reminderRepository.findAllSortedByTitle(userID, pageable);
+                break;
+
+        }
+        return reminderPage;
+
+    }
+
+    @Override
     public Reminder getLast(long userID) {
         return reminderRepository.findTopByUserIdOrderByIdAsc(userID).orElseThrow(() -> new IllegalArgumentException("No reminders have been created yet"));
     }
 
     @Override
     public List<Reminder> get(String title, long userID) {
-        return reminderRepository.findByTitleAndUserId(title,userID);
+        return reminderRepository.findByTitleAndUserId(title, userID);
     }
 
     @Override
     public List<Reminder> getByDescription(String description, long userID) {
-        return reminderRepository.findByDescriptionAndUserId(description,userID);
+        return reminderRepository.findByDescriptionAndUserId(description, userID);
     }
 
     @Override
@@ -80,7 +100,7 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Reminder delete(long id, long userID) {
-        Reminder reminder = this.get(id,userID);
+        Reminder reminder = this.get(id, userID);
         reminderRepository.delete(reminder);
         return reminder;
     }
@@ -94,7 +114,7 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Reminder update(Reminder reminder, long userID) {
-        Reminder baseReminder = this.get(reminder.getId(),userID);
+        Reminder baseReminder = this.get(reminder.getId(), userID);
         baseReminder.setTitle(reminder.getTitle());
         baseReminder.setDescription(reminder.getDescription());
         baseReminder.setRemind(reminder.getRemind());

@@ -5,10 +5,11 @@ import com.dmiit3iy.reminder.model.Reminder;
 import com.dmiit3iy.reminder.service.ReminderService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/domain/api/v1")
@@ -40,9 +41,28 @@ public class ReminderController {
      * @return
      */
     @GetMapping("/list/{idUser}")
-    public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(@RequestParam("current") int current, @RequestParam("total") int total,@PathVariable ("idUser") int idUser) {
+    public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(
+            @RequestParam(name = "current", defaultValue = "0") int current,
+            @RequestParam(name = "total", defaultValue = "5") int total, @PathVariable("idUser") int idUser) {
         try {
-            Page<Reminder> pageRemind = reminderService.get(current, total,idUser);
+            Page<Reminder> pageRemind = reminderService.get(current, total, idUser);
+            return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @GetMapping("/sort/{idUser}")
+    public ResponseEntity<ResponseResult<Page<Reminder>>> getSortedUsers(@RequestParam(defaultValue = "0") int current,
+                                                                         @RequestParam(defaultValue = "10") int total,
+                                                                         @RequestParam(defaultValue = "title") String by,
+                                                                         @PathVariable("idUser") int idUser) {
+        try {
+            if (!List.of("title", "date", "time").contains(by)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            Page<Reminder> pageRemind = reminderService.get(current, total, idUser, by);
             return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
@@ -56,7 +76,7 @@ public class ReminderController {
      * @return
      */
     @PostMapping("/reminder/create/{idUser}")
-    public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder, @PathVariable ("idUser") int idUser) {
+    public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder, @PathVariable("idUser") int idUser) {
         try {
             reminderService.add(reminder, idUser);
             return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
@@ -66,7 +86,7 @@ public class ReminderController {
     }
 
     @DeleteMapping("/reminder/delete/{idUser}")
-    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable ("idUser") int idUser) {
+    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("idUser") int idUser) {
         try {
             Reminder reminder = reminderService.delete(idUser);
             return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
@@ -82,7 +102,7 @@ public class ReminderController {
      * @return
      */
     @DeleteMapping("/reminder/delete/{id}/{idUser}")
-    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id, @PathVariable ("idUser") int idUser) {
+    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id, @PathVariable("idUser") int idUser) {
         try {
             Reminder reminder = reminderService.delete(id);
             return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);

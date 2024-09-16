@@ -40,6 +40,17 @@ public interface ReminderService {
      * @return
      */
     Page<Reminder> get(int page, int size, long userID);
+
+    /**
+     * Получение списка с пагинацией с указанием параметров и сортировкой
+     * @param
+     * @return
+     */
+    Page<Reminder> get(int page, int size, long userID, String by);
+
+
+
+
     /**
      * Получение последнего созданного напоминаия
      *

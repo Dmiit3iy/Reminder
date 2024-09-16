@@ -1,2 +1,12 @@
 ###
-GET localhost:8080/domain/api/v1/list/1?current=0&total=3
+GET localhost:8080/domain/api/v1/list/1?current=1&total=3
+###
+GET localhost:8080/domain/api/v1/list/1
+###
+GET localhost:8080/domain/api/v1/sort/1?by=title
+
+###
+GET localhost:8080/domain/api/v1/sort/1?by=date
+
+###
+GET localhost:8080/domain/api/v1/sort/1?by=time
