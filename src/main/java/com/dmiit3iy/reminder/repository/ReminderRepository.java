@@ -13,11 +13,11 @@ import java.util.Optional;
 
 @Repository
 public interface ReminderRepository extends JpaRepository<Reminder, Long> {
-    Optional<Reminder> findTopByOrderByIdAsc();
+    Optional<Reminder> findTopByUserIdOrderByIdAsc(long userID);
 
-    List<Reminder> findByTitle(String title);
+    List<Reminder> findByTitleAndUserId(String title,long userID);
 
-    List<Reminder> findByDescription(String description);
+    List<Reminder> findByDescriptionAndUserId(String description, long userID);
 
     @Query("SELECT r FROM Reminder r WHERE FUNCTION('TIME', r.remind) = :localTime")
     List<Reminder> findByLocalTime(@Param("localTime") LocalTime localTime);

@@ -35,14 +35,14 @@ public class ReminderController {
     /**
      * Получение списка с пагинацией, с параметрами
      *
-     * @param page
-     * @param size
+     * @param current
+     * @param total
      * @return
      */
     @GetMapping("/list/{idUser}")
-    public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(@RequestParam("page") int page, @RequestParam("size") int size,@PathVariable ("idUser") int idUser) {
+    public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(@RequestParam("current") int current, @RequestParam("total") int total,@PathVariable ("idUser") int idUser) {
         try {
-            Page<Reminder> pageRemind = reminderService.get(page, size);
+            Page<Reminder> pageRemind = reminderService.get(current, total,idUser);
             return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
@@ -58,7 +58,7 @@ public class ReminderController {
     @PostMapping("/reminder/create/{idUser}")
     public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder, @PathVariable ("idUser") int idUser) {
         try {
-            reminderService.add(reminder);
+            reminderService.add(reminder, idUser);
             return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
@@ -68,7 +68,7 @@ public class ReminderController {
     @DeleteMapping("/reminder/delete/{idUser}")
     public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable ("idUser") int idUser) {
         try {
-            Reminder reminder = reminderService.delete();
+            Reminder reminder = reminderService.delete(idUser);
             return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
