@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ReminderService {
 
-    void add(Reminder reminder);
+    void add(Reminder reminder, int userID);
 
     /**
      * Получение списка напоминаний по ID
@@ -18,34 +18,34 @@ public interface ReminderService {
      * @param id
      * @return
      */
-    Reminder get(long id);
+    Reminder get(long id, int userID);
 
     /**
      * Получение списка всех напоминаний
      *
      * @return
      */
-    List<Reminder> get();
+    List<Reminder> get(int userID);
 
     /**
      * Получение списка с пагинацией
      * @param pageable
      * @return
      */
-    Page<Reminder> get(Pageable pageable);
+    Page<Reminder> get(Pageable pageable, int userID);
 
     /**
      * Получение списка с пагинацией с указанием параметров
      * @param
      * @return
      */
-    Page<Reminder> get(int page, int size);
+    Page<Reminder> get(int page, int size, int userID);
     /**
      * Получение последнего созданного напоминаия
      *
      * @return
      */
-    Reminder getLast();
+    Reminder getLast(int userID);
 
     /**
      * Получение списка напоминаний по заголовку
@@ -53,7 +53,7 @@ public interface ReminderService {
      * @param title
      * @return
      */
-    List<Reminder> get(String title);
+    List<Reminder> get(String title, int userID);
 
     /**
      * Получение списка напоминаний по описанию
@@ -62,7 +62,7 @@ public interface ReminderService {
      * @return
      */
 
-    List<Reminder> getByDescription(String description);
+    List<Reminder> getByDescription(String description, int userID);
 
     /**
      * Получение списка напоминаний по дате
@@ -71,7 +71,7 @@ public interface ReminderService {
      * @return
      */
 
-    List<Reminder> get(LocalDate localDate);
+    List<Reminder> get(LocalDate localDate, int userID);
 
     /**
      * Получение списка напоминаний по времени
@@ -79,7 +79,7 @@ public interface ReminderService {
      * @param localTime
      * @return
      */
-    List<Reminder> get(LocalTime localTime);
+    List<Reminder> get(LocalTime localTime, int userID);
 
     /**
      * Удаление напоминания по ID
@@ -87,13 +87,13 @@ public interface ReminderService {
      * @param id
      * @return
      */
-    Reminder delete(long id);
+    Reminder delete(long id, int userID);
 
     /**
      * Удаление последнего напоминания
      * @return
      */
-    Reminder delete();
+    Reminder delete(int userID);
 
     /**
      * Обновление напоминания
@@ -101,6 +101,6 @@ public interface ReminderService {
      * @param reminder
      * @return
      */
-    Reminder update(Reminder reminder);
+    Reminder update(Reminder reminder, int userID);
 
 }
