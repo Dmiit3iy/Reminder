@@ -4,7 +4,7 @@
 CREATE TABLE IF NOT EXISTS users
 (
     id         SERIAL PRIMARY KEY,
-    email      varchar(255),
+    email      varchar(255) UNIQUE,
     first_name varchar(255),
     last_name  varchar(255),
     telegram   varchar(255)

@@ -1,7 +1,7 @@
 package com.dmiit3iy.reminder.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,22 +17,29 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @NonNull
     private String firstName;
+
     @NonNull
     private String lastName;
+
+    @Column(unique = true)
     private String email;
+
     private String telegram;
+
+    @JsonIgnore
     @NonNull
     private String password;
-    @OneToMany(mappedBy = "user")
-    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reminder> reminders = new ArrayList<>();
 
     public void addRemind(Reminder reminder) {
         reminders.add(reminder);
+        reminder.setUser(this);
     }
-
+    @JsonIgnore
     public List<Reminder> getReminds() {
         return reminders;
     }

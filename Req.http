@@ -1,0 +1,23 @@
+###
+POST http://localhost:8080/users/add
+content-type:application/json
+
+{
+  "firstName": "Dmitiry",
+  "lastName": "Pososhkov",
+  "email": "tiger@gmail.com",
+  "telegram": "@dmmi",
+  "password": "123"
+}
+
+###
+POST http://localhost:8080/users/add
+content-type:application/json
+
+{
+  "firstName": "Oleg",
+  "lastName": "Kolevalov",
+  "email": "kol@gmail.com",
+  "telegram": "@kol",
+  "password": "123"
+}

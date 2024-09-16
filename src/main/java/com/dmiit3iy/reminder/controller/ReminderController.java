@@ -16,21 +16,21 @@ import org.springframework.web.bind.annotation.*;
 public class ReminderController {
     private final ReminderService reminderService;
 
-    /**
-     * Получение всего списка напоминаний
-     *
-     * @param pageable
-     * @return
-     */
-    @GetMapping("/list")
-    public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(Pageable pageable) {
-        try {
-            Page<Reminder> page = reminderService.get(pageable);
-            return new ResponseEntity<>(new ResponseResult<>(null, page), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
-    }
+//    /**
+//     * Получение всего списка напоминаний
+//     *
+//     * @param pageable
+//     * @return
+//     */
+//    @GetMapping("/list")
+//    public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(Pageable pageable) {
+//        try {
+//            Page<Reminder> page = reminderService.get(pageable);
+//            return new ResponseEntity<>(new ResponseResult<>(null, page), HttpStatus.OK);
+//        } catch (IllegalArgumentException e) {
+//            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     /**
      * Получение списка с пагинацией, с параметрами
