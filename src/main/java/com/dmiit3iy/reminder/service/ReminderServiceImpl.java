@@ -33,41 +33,47 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Reminder get(long id, long userID) {
-        return reminderRepository.findById(id).
+        User user = userService.get(id);
+        return reminderRepository.findByUserAndId(user, id).
                 orElseThrow(() -> new IllegalArgumentException(" There is no such reminder in the application"));
     }
 
     @Override
     public List<Reminder> get(long userID) {
-        return reminderRepository.findAll();
+        User user = userService.get(userID);
+        return reminderRepository.findByUser(user);
     }
 
     @Override
     public Page<Reminder> get(Pageable pageable, long userID) {
-        return reminderRepository.findAll(pageable);
+        User user = userService.get(userID);
+        return reminderRepository.findByUser(user, pageable);
     }
 
     @Override
     public Page<Reminder> get(int page, int size, long userID) {
+        User user = userService.get(userID);
         Pageable pageable = PageRequest.of(page, size);
-        return reminderRepository.findAll(pageable);
+        return reminderRepository.findByUser(user, pageable);
     }
 
     @Override
     public Page<Reminder> get(int page, int size, long userID, String by) {
+
         Pageable pageable = PageRequest.of(page, size);
         Page<Reminder> reminderPage = Page.empty();
-        switch (by) {
-            case "time":
-                reminderPage = reminderRepository.findAllSortedByTime(userID, pageable);
-                break;
-            case "date":
-                reminderPage = reminderRepository.findAllSortedByDate(userID, pageable);
-                break;
-            case "title":
-                reminderPage = reminderRepository.findAllSortedByTitle(userID, pageable);
-                break;
-
+        if (userService.get(userID) != null) {
+            switch (by) {
+                case "time":
+                    reminderPage = reminderRepository.findAllSortedByTime(userID, pageable);
+                    break;
+                case "date":
+                    reminderPage = reminderRepository.findAllSortedByDate(userID, pageable);
+                    break;
+                case "title":
+                    reminderPage = reminderRepository.findAllSortedByTitle(userID, pageable);
+                    break;
+            }
         }
         return reminderPage;
 
@@ -75,6 +81,7 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Page<Reminder> getFilter(int page, int size, LocalDate date, LocalTime time, long userId) {
+        User user = userService.get(userId);
         Pageable pageable = PageRequest.of(page, size);
 
         if (time != null) {
@@ -90,32 +97,37 @@ public class ReminderServiceImpl implements ReminderService {
         } else if (date != null) {
             return reminderRepository.findByRemindDate(userId, date, pageable);
         }
-        return reminderRepository.findAll(pageable);
+        return reminderRepository.findByUser(user, pageable);
     }
 
     @Override
     public Reminder getLast(long userID) {
-        return reminderRepository.findTopByUserIdOrderByIdAsc(userID).orElseThrow(() -> new IllegalArgumentException("No reminders have been created yet"));
+        User user = userService.get(userID);
+        return reminderRepository.findTopByUserOrderByIdAsc(user).orElseThrow(() -> new IllegalArgumentException("No reminders have been created yet"));
     }
 
     @Override
     public List<Reminder> get(String title, long userID) {
-        return reminderRepository.findByTitleAndUserId(title, userID);
+        User user = userService.get(userID);
+        return reminderRepository.findByTitleAndUser(title, user);
     }
 
     @Override
     public List<Reminder> getByDescription(String description, long userID) {
-        return reminderRepository.findByDescriptionAndUserId(description, userID);
+        User user =userService.get(userID);
+        return reminderRepository.findByDescriptionAndUser(description, user);
     }
 
     @Override
     public List<Reminder> get(LocalDate localDate, long userID) {
-        return reminderRepository.findByLocalDate(localDate);
+        User user = userService.get(userID);
+        return reminderRepository.findByLocalDate(localDate, user);
     }
 
     @Override
     public List<Reminder> get(LocalTime localTime, long userID) {
-        return reminderRepository.findByLocalTime(localTime);
+        User user = userService.get(userID);
+        return reminderRepository.findByLocalTime(localTime, user);
     }
 
     @Override

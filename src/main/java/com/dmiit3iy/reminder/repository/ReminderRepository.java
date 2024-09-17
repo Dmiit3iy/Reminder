@@ -1,6 +1,7 @@
 package com.dmiit3iy.reminder.repository;
 
 import com.dmiit3iy.reminder.model.Reminder;
+import com.dmiit3iy.reminder.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,11 +16,14 @@ import java.util.Optional;
 
 @Repository
 public interface ReminderRepository extends JpaRepository<Reminder, Long> {
-    Optional<Reminder> findTopByUserIdOrderByIdAsc(long userID);
+    Optional<Reminder> findByUserAndId(User user, long id);
+    Page<Reminder> findByUser(User user, Pageable pageable);
+    List<Reminder> findByUser(User user);
+    Optional<Reminder> findTopByUserOrderByIdAsc(User user);
 
-    List<Reminder> findByTitleAndUserId(String title, long userID);
+    List<Reminder> findByTitleAndUser(String title, User user);
 
-    List<Reminder> findByDescriptionAndUserId(String description, long userID);
+    List<Reminder> findByDescriptionAndUser(String description, User user);
 
 
     // @Query("SELECT * FROM reminder r WHERE user_id = :userId ORDER BY EXTRACT('TIME' from remind)", nativeQuery = true)
@@ -47,8 +51,14 @@ public interface ReminderRepository extends JpaRepository<Reminder, Long> {
     @Query("SELECT r FROM Reminder r WHERE FUNCTION('TIME', r.remind) = :localTime")
     List<Reminder> findByLocalTime(@Param("localTime") LocalTime localTime);
 
-    @Query("SELECT r FROM Reminder r WHERE FUNCTION('DAY', r.remind) = :localDate")
-    List<Reminder> findByLocalDate(@Param("localDate") LocalDate localDate);
+    @Query("SELECT r FROM Reminder r WHERE r.user = :user and FUNCTION('TIME', r.remind) = :localTime")
+    List<Reminder> findByLocalTime(@Param("localTime") LocalTime localTime,@Param("user") User user);
+
+    @Query("SELECT r FROM Reminder r WHERE r.user.id = :userId and FUNCTION('DAY', r.remind) = :localDate")
+    List<Reminder> findByLocalDate(@Param("localDate") LocalDate localDate, @Param("userId") long userId);
+
+    @Query("SELECT r FROM Reminder r WHERE r.user = :user and FUNCTION('DAY', r.remind) = :localDate")
+    List<Reminder> findByLocalDate(@Param("localDate") LocalDate localDate, @Param("user") User user);
 
     List<Reminder> findByRemind(LocalDate remind);
 

@@ -13,7 +13,7 @@ public interface ReminderService {
     void add(Reminder reminder, long userID);
 
     /**
-     * Получение списка напоминаний по ID
+     * Получение напоминания по ID для конкретного полоьзователя
      *
      * @param id
      * @return
