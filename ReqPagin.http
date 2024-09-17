@@ -10,3 +10,16 @@ GET localhost:8080/domain/api/v1/sort/1?by=date
 
 ###
 GET localhost:8080/domain/api/v1/sort/1?by=time
+
+###
+GET localhost:8080/domain/api/v1/filtr/1?date=2024-09-17&time=10:12:00
+###
+GET localhost:8080/domain/api/v1/filtr/1?date=2024-09-17
+###
+GET localhost:8080/domain/api/v1/filtr/1?time=10:12:00
+
+###
+GET localhost:8080/users/1
+
+###
+GET localhost:8080/users/1622

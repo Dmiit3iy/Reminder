@@ -31,12 +31,8 @@ public class ReminderController {
     public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(
             @RequestParam(name = "current", defaultValue = "0") int current,
             @RequestParam(name = "total", defaultValue = "5") int total, @PathVariable("idUser") int idUser) {
-        try {
-            Page<Reminder> pageRemind = reminderService.get(current, total, idUser);
-            return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
+        Page<Reminder> pageRemind = reminderService.get(current, total, idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
     }
 
 
@@ -45,32 +41,24 @@ public class ReminderController {
                                                                          @RequestParam(defaultValue = "10") int total,
                                                                          @RequestParam(defaultValue = "title") String by,
                                                                          @PathVariable("idUser") int idUser) {
-        try {
-            if (!List.of("title", "date", "time").contains(by)) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            Page<Reminder> pageRemind = reminderService.get(current, total, idUser, by);
-            return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        if (!List.of("title", "date", "time").contains(by)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        Page<Reminder> pageRemind = reminderService.get(current, total, idUser, by);
+        return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
     }
 
 
     @GetMapping("/filtr/{idUser}")
     public ResponseEntity<ResponseResult<Page<Reminder>>> getFilter(@RequestParam(defaultValue = "0") int current,
                                                                     @RequestParam(defaultValue = "10") int total,
-                                                                    @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-                                                                    @RequestParam(value = "time", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+                                                                    @RequestParam(value = "date", required = false)
+                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                                                    @RequestParam(value = "time", required = false)
+                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
                                                                     @PathVariable("idUser") int idUser) {
-        try {
-
-            Page<Reminder> pageRemind = reminderService.getFilter(current, total, date, time, idUser);
-            return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
-
+        Page<Reminder> pageRemind = reminderService.getFilter(current, total, date, time, idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
     }
 
 
@@ -81,23 +69,16 @@ public class ReminderController {
      * @return
      */
     @PostMapping("/reminder/create/{idUser}")
-    public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder, @PathVariable("idUser") int idUser) {
-        try {
-            reminderService.add(reminder, idUser);
-            return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder,
+                                                        @PathVariable("idUser") int idUser) {
+        reminderService.add(reminder, idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
     }
 
     @DeleteMapping("/reminder/delete/{idUser}")
     public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("idUser") int idUser) {
-        try {
-            Reminder reminder = reminderService.delete(idUser);
-            return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
+        Reminder reminder = reminderService.delete(idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
     }
 
     /**
@@ -108,12 +89,8 @@ public class ReminderController {
      */
     @DeleteMapping("/reminder/delete/{id}/{idUser}")
     public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id, @PathVariable("idUser") int idUser) {
-        try {
-            Reminder reminder = reminderService.delete(id);
-            return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
+        Reminder reminder = reminderService.delete(id);
+        return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
     }
 
 }

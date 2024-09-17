@@ -16,31 +16,19 @@ public class UserController {
 
     @PostMapping("/add")
     public ResponseEntity<ResponseResult<User>> add(@RequestBody User user) {
-        try {
-            this.userService.add(user);
-            return new ResponseEntity<>(new ResponseResult<>(null, user), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
+        this.userService.add(user);
+        return new ResponseEntity<>(new ResponseResult<>(null, user), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseResult<User>> get(@PathVariable("id") long id) {
-        try {
-            User user = this.userService.get(id);
-            return new ResponseEntity<>(new ResponseResult<>(null, user), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
+        User user = this.userService.get(id);
+        return new ResponseEntity<>(new ResponseResult<>(null, user), HttpStatus.OK);
     }
 
     @DeleteMapping("/id")
     public ResponseEntity<ResponseResult<User>> delete(@PathVariable("id") long id) {
-        try {
-            User user = userService.delete(id);
-            return new ResponseEntity<>(new ResponseResult<>(null, user), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
+        User user = userService.delete(id);
+        return new ResponseEntity<>(new ResponseResult<>(null, user), HttpStatus.OK);
     }
 }
