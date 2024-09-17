@@ -74,6 +74,26 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    public Page<Reminder> getFilter(int page, int size, LocalDate date, LocalTime time, long userId) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (time != null) {
+            int hour = time.getHour();
+            int minute = time.getMinute();
+            int second = time.getSecond();
+            if (date != null && time != null) {
+
+                return reminderRepository.findByRemindDateAndTime(userId, date, hour, minute, second, pageable);
+            } else {
+                return reminderRepository.findByRemindTime(userId, hour, minute, second, pageable);
+            }
+        } else if (date != null) {
+            return reminderRepository.findByRemindDate(userId, date, pageable);
+        }
+        return reminderRepository.findAll(pageable);
+    }
+
+    @Override
     public Reminder getLast(long userID) {
         return reminderRepository.findTopByUserIdOrderByIdAsc(userID).orElseThrow(() -> new IllegalArgumentException("No reminders have been created yet"));
     }

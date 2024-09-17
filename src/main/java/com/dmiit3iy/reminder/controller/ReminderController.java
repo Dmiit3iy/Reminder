@@ -5,10 +5,13 @@ import com.dmiit3iy.reminder.model.Reminder;
 import com.dmiit3iy.reminder.service.ReminderService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -16,22 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ReminderController {
     private final ReminderService reminderService;
-
-//    /**
-//     * Получение всего списка напоминаний
-//     *
-//     * @param pageable
-//     * @return
-//     */
-//    @GetMapping("/list")
-//    public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(Pageable pageable) {
-//        try {
-//            Page<Reminder> page = reminderService.get(pageable);
-//            return new ResponseEntity<>(new ResponseResult<>(null, page), HttpStatus.OK);
-//        } catch (IllegalArgumentException e) {
-//            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
-//        }
-//    }
 
     /**
      * Получение списка с пагинацией, с параметрами
@@ -68,6 +55,24 @@ public class ReminderController {
             return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    @GetMapping("/filtr/{idUser}")
+    public ResponseEntity<ResponseResult<Page<Reminder>>> getFilter(@RequestParam(defaultValue = "0") int current,
+                                                                    @RequestParam(defaultValue = "10") int total,
+                                                                    @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                                                    @RequestParam(value = "time", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+                                                                    @PathVariable("idUser") int idUser) {
+        try {
+
+            Page<Reminder> pageRemind = reminderService.getFilter(current, total, date, time, idUser);
+            return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new ResponseResult<>(e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
 
     /**
      * Создание напоминания

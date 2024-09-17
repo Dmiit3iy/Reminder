@@ -29,6 +29,7 @@ public interface ReminderService {
 
     /**
      * Получение списка с пагинацией
+     *
      * @param pageable
      * @return
      */
@@ -36,6 +37,7 @@ public interface ReminderService {
 
     /**
      * Получение списка с пагинацией с указанием параметров
+     *
      * @param
      * @return
      */
@@ -43,12 +45,20 @@ public interface ReminderService {
 
     /**
      * Получение списка с пагинацией с указанием параметров и сортировкой
+     *
      * @param
      * @return
      */
     Page<Reminder> get(int page, int size, long userID, String by);
 
-
+    /**
+     * Получение отфильтрованного списка
+     * @param date
+     * @param time
+     * @param userId
+     * @return
+     */
+    Page<Reminder> getFilter(int page, int size,LocalDate date, LocalTime time, long userId);
 
 
     /**
@@ -102,6 +112,7 @@ public interface ReminderService {
 
     /**
      * Удаление последнего напоминания
+     *
      * @return
      */
     Reminder delete(long userID);
