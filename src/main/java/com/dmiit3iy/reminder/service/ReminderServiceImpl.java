@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -151,5 +152,18 @@ public class ReminderServiceImpl implements ReminderService {
         baseReminder.setDescription(reminder.getDescription());
         baseReminder.setRemind(reminder.getRemind());
         return reminderRepository.save(baseReminder);
+    }
+
+    @Override
+    public List<Reminder> searchReminders(String title, String description, LocalDate date, LocalTime time, long userID) {
+        User user = userService.get(userID);
+        List<Reminder> allReminders = reminderRepository.findByUser(user);
+
+        return allReminders.stream()
+                .filter(reminder -> (title == null || reminder.getTitle().contains(title)))
+                .filter(reminder -> (description == null || reminder.getDescription().contains(description)))
+                .filter(reminder -> (date == null || reminder.getRemind().toLocalDate().equals(date)))
+                .filter(reminder -> (time == null || reminder.getRemind().toLocalTime().equals(time)))
+                .collect(Collectors.toList());
     }
 }

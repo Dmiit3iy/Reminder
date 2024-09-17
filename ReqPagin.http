@@ -26,3 +26,9 @@ GET localhost:8080/users/1622
 
 ###
 GET localhost:8080/domain/api/v1/filtr/133
+
+###
+GET localhost:8080/domain/api/v1/reminder/search/1?time=10:00:00
+
+###
+GET localhost:8080/domain/api/v1/reminder/search/1?date=2024-09-17&time=10:12:00

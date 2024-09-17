@@ -53,9 +53,9 @@ public class ReminderController {
     public ResponseEntity<ResponseResult<Page<Reminder>>> getFilter(@RequestParam(defaultValue = "0") int current,
                                                                     @RequestParam(defaultValue = "10") int total,
                                                                     @RequestParam(value = "date", required = false)
-                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
                                                                     @RequestParam(value = "time", required = false)
-                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
                                                                     @PathVariable("idUser") int idUser) {
         Page<Reminder> pageRemind = reminderService.getFilter(current, total, date, time, idUser);
         return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
@@ -91,6 +91,18 @@ public class ReminderController {
     public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id, @PathVariable("idUser") int idUser) {
         Reminder reminder = reminderService.delete(id);
         return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/reminder/search/{idUser}")
+    public ResponseEntity<ResponseResult<List<Reminder>>> searchReminders(@RequestParam(value = "title", required = false) String title,
+                                                                          @RequestParam(value = "description", required = false) String description,
+                                                                          @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                                                          @RequestParam(value = "time", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+                                                                          @PathVariable("idUser") int idUser) {
+
+        List<Reminder> reminders = reminderService.searchReminders(title, description, date, time, idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, reminders), HttpStatus.OK);
     }
 
 }

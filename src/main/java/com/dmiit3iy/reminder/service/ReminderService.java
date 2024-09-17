@@ -125,4 +125,15 @@ public interface ReminderService {
      */
     Reminder update(Reminder reminder, long userID);
 
+    /**
+     * Поиск уведомлений
+     * @param title
+     * @param description
+     * @param date
+     * @param time
+     * @return
+     */
+    List<Reminder> searchReminders(String title, String description, LocalDate date, LocalTime time, long userID);
+
+    //TODO Стоит ли получение всех List'ов на Page?
 }
