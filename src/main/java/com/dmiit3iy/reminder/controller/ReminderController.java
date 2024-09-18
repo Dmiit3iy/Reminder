@@ -30,7 +30,7 @@ public class ReminderController {
     @GetMapping("/list/{idUser}")
     public ResponseEntity<ResponseResult<Page<Reminder>>> getUsers(
             @RequestParam(name = "current", defaultValue = "0") int current,
-            @RequestParam(name = "total", defaultValue = "5") int total, @PathVariable("idUser") int idUser) {
+            @RequestParam(name = "total", defaultValue = "5") int total, @PathVariable("idUser") long idUser) {
         Page<Reminder> pageRemind = reminderService.get(current, total, idUser);
         return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
     }
@@ -40,7 +40,7 @@ public class ReminderController {
     public ResponseEntity<ResponseResult<Page<Reminder>>> getSortedUsers(@RequestParam(defaultValue = "0") int current,
                                                                          @RequestParam(defaultValue = "10") int total,
                                                                          @RequestParam(defaultValue = "title") String by,
-                                                                         @PathVariable("idUser") int idUser) {
+                                                                         @PathVariable("idUser") long idUser) {
         if (!List.of("title", "date", "time").contains(by)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -56,7 +56,7 @@ public class ReminderController {
                                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
                                                                     @RequestParam(value = "time", required = false)
                                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
-                                                                    @PathVariable("idUser") int idUser) {
+                                                                    @PathVariable("idUser") long idUser) {
         Page<Reminder> pageRemind = reminderService.getFilter(current, total, date, time, idUser);
         return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
     }
@@ -70,14 +70,8 @@ public class ReminderController {
      */
     @PostMapping("/reminder/create/{idUser}")
     public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder,
-                                                        @PathVariable("idUser") int idUser) {
+                                                        @PathVariable("idUser") long idUser) {
         reminderService.add(reminder, idUser);
-        return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/reminder/delete/{idUser}")
-    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("idUser") int idUser) {
-        Reminder reminder = reminderService.delete(idUser);
         return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
     }
 
@@ -88,8 +82,8 @@ public class ReminderController {
      * @return
      */
     @DeleteMapping("/reminder/delete/{id}/{idUser}")
-    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id, @PathVariable("idUser") int idUser) {
-        Reminder reminder = reminderService.delete(id);
+    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id, @PathVariable("idUser") long idUser) {
+        Reminder reminder = reminderService.delete(id, idUser);
         return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
     }
 
@@ -99,10 +93,16 @@ public class ReminderController {
                                                                           @RequestParam(value = "description", required = false) String description,
                                                                           @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
                                                                           @RequestParam(value = "time", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
-                                                                          @PathVariable("idUser") int idUser) {
-
+                                                                          @PathVariable("idUser") long idUser) {
         List<Reminder> reminders = reminderService.searchReminders(title, description, date, time, idUser);
         return new ResponseEntity<>(new ResponseResult<>(null, reminders), HttpStatus.OK);
     }
+
+    @PutMapping("/reminder/update/{idUser}")
+    public ResponseEntity<ResponseResult<Reminder>> updateReminder(@RequestBody Reminder reminder, @PathVariable("idUser") long idUser) {
+        Reminder reminderNew = reminderService.update(reminder, idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, reminderNew), HttpStatus.OK);
+    }
+
 
 }

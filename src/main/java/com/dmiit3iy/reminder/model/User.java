@@ -29,6 +29,8 @@ public class User {
 
     private String telegram;
 
+    private long chatId;
+
     @NonNull
     private String password;
     @JsonIgnore
