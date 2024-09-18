@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -23,6 +25,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User get(long id) {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("The user with the same ID is not in the application"));
+    }
+
+    @Override
+    public Optional<User> get(String telegram) {
+        return userRepository.findByTelegram(telegram);
+    }
+
+    @Override
+    public User update(User user) {
+        User base = this.get(user.getId());
+        base.setEmail(user.getEmail());
+        base.setChatId(user.getChatId());
+        base.setLastName(user.getLastName());
+        base.setFirstName(user.getFirstName());
+        return userRepository.save(base);
     }
 
     @Override

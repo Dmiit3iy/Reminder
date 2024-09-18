@@ -28,3 +28,5 @@ spring:
           starttls:
             enable: true
             required: true
+  bot:
+      token: your_telegram_token

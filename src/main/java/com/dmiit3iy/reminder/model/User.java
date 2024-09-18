@@ -28,6 +28,7 @@ public class User {
     private String email;
 
     private String telegram;
+    @Column(unique = true,name = "chat_id")
 
     private long chatId;
 

@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
+@Table(name = "reminder")
 public class Reminder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

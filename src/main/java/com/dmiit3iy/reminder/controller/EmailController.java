@@ -12,6 +12,7 @@ public class EmailController {
     String s;
     @Value("${spring.mail.subject}")
     String ss;
+
     @Autowired
     private EmailService emailService;
 
