@@ -34,7 +34,7 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Reminder get(long id, long userID) {
-        User user = userService.get(id);
+        User user = userService.get(userID);
         return reminderRepository.findByUserAndId(user, id).
                 orElseThrow(() -> new IllegalArgumentException(" There is no such reminder in the application"));
     }
@@ -115,7 +115,7 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public List<Reminder> getByDescription(String description, long userID) {
-        User user =userService.get(userID);
+        User user = userService.get(userID);
         return reminderRepository.findByDescriptionAndUser(description, user);
     }
 
@@ -153,6 +153,7 @@ public class ReminderServiceImpl implements ReminderService {
         baseReminder.setRemind(reminder.getRemind());
         return reminderRepository.save(baseReminder);
     }
+
 
     @Override
     public List<Reminder> searchReminders(String title, String description, LocalDate date, LocalTime time, long userID) {

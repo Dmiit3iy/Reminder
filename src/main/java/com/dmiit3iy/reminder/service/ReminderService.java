@@ -53,12 +53,13 @@ public interface ReminderService {
 
     /**
      * Получение отфильтрованного списка
+     *
      * @param date
      * @param time
      * @param userId
      * @return
      */
-    Page<Reminder> getFilter(int page, int size,LocalDate date, LocalTime time, long userId);
+    Page<Reminder> getFilter(int page, int size, LocalDate date, LocalTime time, long userId);
 
 
     /**
@@ -125,8 +126,10 @@ public interface ReminderService {
      */
     Reminder update(Reminder reminder, long userID);
 
+
     /**
      * Поиск уведомлений
+     *
      * @param title
      * @param description
      * @param date

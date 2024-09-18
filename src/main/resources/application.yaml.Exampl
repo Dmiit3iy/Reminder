@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: Reminder
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reminder
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQL10Dialect
+  mail:
+    host: smtp.mail.ru
+    port: 465
+    username: your_email@mail.ru
+    password: your password
+    subject: Remind
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          starttls:
+            enable: true
+            required: true
+

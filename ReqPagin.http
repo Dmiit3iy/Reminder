@@ -32,3 +32,17 @@ GET localhost:8080/domain/api/v1/reminder/search/1?time=10:00:00
 
 ###
 GET localhost:8080/domain/api/v1/reminder/search/1?date=2024-09-17&time=10:12:00
+
+###
+PUT localhost:8080/domain/api/v1/reminder/update/1
+content-type:application/json
+
+{
+  "id": 3,
+  "title": "Проба пераQQQQ",
+  "description": "Много много строчек разных мыслей",
+  "remind": "2024-09-17T10:00:00"
+}
+
+###
+GET localhost:8080/send-email
