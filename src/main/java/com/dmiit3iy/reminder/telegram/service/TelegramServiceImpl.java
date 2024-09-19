@@ -1,5 +1,6 @@
 package com.dmiit3iy.reminder.telegram.service;
 
+import com.dmiit3iy.reminder.service.Sender;
 import com.pengrad.telegrambot.Callback;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.request.ParseMode;
@@ -13,7 +14,7 @@ import java.io.IOException;
 
 @Slf4j
 @Service
-public class TelegramServiceImpl implements TelegramService {
+public class TelegramServiceImpl implements TelegramService, Sender {
     @Value("${bot.token}")
     private String token;
 
@@ -36,4 +37,25 @@ public class TelegramServiceImpl implements TelegramService {
                     }
                 });
         }
+
+    @Override
+    public void sendMessage(String to, String text) {
+        long chatId = Long.parseLong(to); // Преобразуем строку в chatId
+        TelegramBot bot = new TelegramBot(token);
+        bot.execute(new SendMessage(chatId, text),
+                new Callback<SendMessage, SendResponse>() {
+                    @Override
+                    public void onResponse(SendMessage sendMessage,
+                                           SendResponse sendResponse) {
+                        int messageId = sendResponse.message().messageId();
+                        System.out.println("Telegram сообщение отправлено: " + messageId);
+                    }
+
+                    @Override
+                    public void onFailure(SendMessage sendMessage, IOException e) {
+                        System.out.println("Ошибка отправки сообщения: " + sendMessage);
+                        e.printStackTrace();
+                    }
+                });
     }
+}

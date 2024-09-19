@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users
     email      varchar(255) UNIQUE,
     first_name varchar(255),
     last_name  varchar(255),
-    chat_id     varchar(255),
+    chat_id    varchar(255),
     telegram   varchar(255)
 );
 --rollback DROP TABLE users;
@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS reminder
     description VARCHAR(4096) NOT NULL,
     remind      TIMESTAMP     NOT NULL,
     user_id     BIGINT        NOT NULL,
+    is_send      BOOLEAN  default false  not null,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 --rollback DROP TABLE reminder;

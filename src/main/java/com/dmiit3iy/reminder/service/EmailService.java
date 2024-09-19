@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Data
-
 public class EmailService implements Sender{
     private final JavaMailSender mailSender;
 

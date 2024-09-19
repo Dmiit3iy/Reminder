@@ -12,6 +12,8 @@ public interface ReminderService {
 
     void add(Reminder reminder, long userID);
 
+    Reminder getById(long id);
+
     /**
      * Получение напоминания по ID для конкретного полоьзователя
      *
@@ -19,6 +21,13 @@ public interface ReminderService {
      * @return
      */
     Reminder get(long id, long userID);
+
+    /**
+     * Метод для получения списка напоминаний всех пользователей необходимых к отправке
+     *
+     * @return
+     */
+    List<Reminder> getToSend();
 
     /**
      * Получение списка всех напоминаний
@@ -126,6 +135,8 @@ public interface ReminderService {
      */
     Reminder update(Reminder reminder, long userID);
 
+    Reminder update(Reminder reminder);
+
 
     /**
      * Поиск уведомлений
@@ -138,5 +149,5 @@ public interface ReminderService {
      */
     List<Reminder> searchReminders(String title, String description, LocalDate date, LocalTime time, long userID);
 
-    //TODO Стоит ли получение всех List'ов на Page?
+
 }

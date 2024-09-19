@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @RequiredArgsConstructor
 @Entity
 @Table(name = "users")
@@ -23,13 +23,13 @@ public class User {
 
     @NonNull
     private String lastName;
-
+    @NonNull
     @Column(unique = true)
     private String email;
 
     private String telegram;
-    @Column(unique = true,name = "chat_id")
 
+    @Column(unique = true, name = "chat_id")
     private long chatId;
 
     @NonNull
@@ -42,6 +42,7 @@ public class User {
         reminders.add(reminder);
         reminder.setUser(this);
     }
+
     @JsonIgnore
     public List<Reminder> getReminds() {
         return reminders;

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,10 +34,21 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    public Reminder getById(long id) {
+        return reminderRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(" There is no such reminder with this number in the application"));
+    }
+
+    @Override
     public Reminder get(long id, long userID) {
         User user = userService.get(userID);
         return reminderRepository.findByUserAndId(user, id).
                 orElseThrow(() -> new IllegalArgumentException(" There is no such reminder in the application"));
+    }
+
+    @Override
+    public List<Reminder> getToSend() {
+        LocalDateTime ldt = LocalDateTime.now();
+        return reminderRepository.findAll().stream().filter(x -> x.getRemind().isBefore(ldt)).filter(x -> x.isSend() == false).collect(Collectors.toList());
     }
 
     @Override
@@ -151,6 +163,16 @@ public class ReminderServiceImpl implements ReminderService {
         baseReminder.setTitle(reminder.getTitle());
         baseReminder.setDescription(reminder.getDescription());
         baseReminder.setRemind(reminder.getRemind());
+        return reminderRepository.save(baseReminder);
+    }
+
+    @Override
+    public Reminder update(Reminder reminder) {
+        Reminder baseReminder = this.getById(reminder.getId());
+        baseReminder.setTitle(reminder.getTitle());
+        baseReminder.setDescription(reminder.getDescription());
+        baseReminder.setRemind(reminder.getRemind());
+        baseReminder.setSend(reminder.isSend());
         return reminderRepository.save(baseReminder);
     }
 
