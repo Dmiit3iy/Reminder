@@ -116,7 +116,7 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public Reminder getLast(long userID) {
         User user = userService.get(userID);
-        return reminderRepository.findTopByUserOrderByIdAsc(user).orElseThrow(() -> new IllegalArgumentException("No reminders have been created yet"));
+        return reminderRepository.findTopByUserOrderByIdDesc(user).orElseThrow(() -> new IllegalArgumentException("No reminders have been created yet"));
     }
 
     @Override

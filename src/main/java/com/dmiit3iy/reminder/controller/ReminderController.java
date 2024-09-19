@@ -125,5 +125,15 @@ public class ReminderController {
         return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
     }
 
+    /**
+     * Удаление последнего напоминания пользователя
+     * @param idUser
+     * @return
+     */
+    @DeleteMapping("/reminder/delete/{idUser}")
+    public ResponseEntity<ResponseResult<Reminder>> delete( @PathVariable("idUser") long idUser) {
+        Reminder reminder = reminderService.delete(idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
+    }
 
 }

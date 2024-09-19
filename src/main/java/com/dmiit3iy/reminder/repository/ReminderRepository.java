@@ -17,9 +17,14 @@ import java.util.Optional;
 @Repository
 public interface ReminderRepository extends JpaRepository<Reminder, Long> {
     Optional<Reminder> findByUserAndId(User user, long id);
+
     Page<Reminder> findByUser(User user, Pageable pageable);
+
     List<Reminder> findByUser(User user);
+
     Optional<Reminder> findTopByUserOrderByIdAsc(User user);
+
+    Optional<Reminder> findTopByUserOrderByIdDesc(User user);
 
     List<Reminder> findByTitleAndUser(String title, User user);
 
@@ -35,14 +40,14 @@ public interface ReminderRepository extends JpaRepository<Reminder, Long> {
     Page<Reminder> findAllSortedByDate(@Param("userId") long userId, Pageable pageable);
 
 
-
     @Query(value = "SELECT * FROM reminder r WHERE r.user_id = :userId AND DATE(r.remind) = :date AND EXTRACT(HOUR FROM r.remind) = :hour AND EXTRACT(MINUTE FROM r.remind) = :minute AND EXTRACT(SECOND FROM r.remind) = :second", nativeQuery = true)
     Page<Reminder> findByRemindDateAndTime(@Param("userId") long userId, @Param("date") LocalDate date, @Param("hour") int hour, @Param("minute") int minute, @Param("second") int second, Pageable pageable);
-    @Query(value = "SELECT * FROM reminder r WHERE r.user_id= :userId and DATE(r.remind) = :date",nativeQuery = true)
+
+    @Query(value = "SELECT * FROM reminder r WHERE r.user_id= :userId and DATE(r.remind) = :date", nativeQuery = true)
     Page<Reminder> findByRemindDate(@Param("userId") long userId, @Param("date") LocalDate date, Pageable pageable);
 
     @Query(value = "SELECT * FROM Reminder r WHERE r.user_id= :userId and EXTRACT(HOUR FROM r.remind) = :hour AND EXTRACT(MINUTE FROM r.remind) = :minute AND EXTRACT(SECOND FROM r.remind) = :second", nativeQuery = true)
-    Page<Reminder> findByRemindTime(@Param("userId") long userId,  @Param("hour") int hour, @Param("minute") int minute, @Param("second") int second, Pageable pageable);
+    Page<Reminder> findByRemindTime(@Param("userId") long userId, @Param("hour") int hour, @Param("minute") int minute, @Param("second") int second, Pageable pageable);
 
 
     @Query("SELECT r FROM Reminder r where r.user.id = :userId ORDER BY r.title")
@@ -52,7 +57,7 @@ public interface ReminderRepository extends JpaRepository<Reminder, Long> {
     List<Reminder> findByLocalTime(@Param("localTime") LocalTime localTime);
 
     @Query("SELECT r FROM Reminder r WHERE r.user = :user and FUNCTION('TIME', r.remind) = :localTime")
-    List<Reminder> findByLocalTime(@Param("localTime") LocalTime localTime,@Param("user") User user);
+    List<Reminder> findByLocalTime(@Param("localTime") LocalTime localTime, @Param("user") User user);
 
     @Query("SELECT r FROM Reminder r WHERE r.user.id = :userId and FUNCTION('DAY', r.remind) = :localDate")
     List<Reminder> findByLocalDate(@Param("localDate") LocalDate localDate, @Param("userId") long userId);

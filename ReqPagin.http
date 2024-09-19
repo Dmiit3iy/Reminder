@@ -41,4 +41,7 @@ GET localhost:8080/domain/api/v1/reminder/search/1?time=10:00:00
 ### Поиск по дате и времения
 GET localhost:8080/domain/api/v1/reminder/search/1?date=2024-09-17&time=10:12:00
 
+### Удалить последнее напоминание пользователя
+DELETE localhost:8080/domain/api/v1/reminder/delete/1
+
 
