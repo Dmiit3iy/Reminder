@@ -163,6 +163,9 @@ public class ReminderServiceImpl implements ReminderService {
         baseReminder.setTitle(reminder.getTitle());
         baseReminder.setDescription(reminder.getDescription());
         baseReminder.setRemind(reminder.getRemind());
+        if (reminder.getRemind().isAfter(LocalDateTime.now())) {
+            baseReminder.setSend(false);
+        }
         return reminderRepository.save(baseReminder);
     }
 
@@ -173,6 +176,9 @@ public class ReminderServiceImpl implements ReminderService {
         baseReminder.setDescription(reminder.getDescription());
         baseReminder.setRemind(reminder.getRemind());
         baseReminder.setSend(reminder.isSend());
+        if (reminder.getRemind().isAfter(LocalDateTime.now())) {
+            baseReminder.setSend(false);
+        }
         return reminderRepository.save(baseReminder);
     }
 

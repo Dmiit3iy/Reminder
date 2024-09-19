@@ -21,6 +21,31 @@ public class ReminderController {
     private final ReminderService reminderService;
 
     /**
+     * Создание напоминания
+     *
+     * @param reminder
+     * @return
+     */
+    @PostMapping("/reminder/create/{idUser}")
+    public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder,
+                                                        @PathVariable("idUser") long idUser) {
+        reminderService.add(reminder, idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
+    }
+
+    /**
+     * Обновление напоминания
+     * @param reminder
+     * @param idUser
+     * @return
+     */
+    @PutMapping("/reminder/update/{idUser}")
+    public ResponseEntity<ResponseResult<Reminder>> updateReminder(@RequestBody Reminder reminder, @PathVariable("idUser") long idUser) {
+        Reminder reminderNew = reminderService.update(reminder, idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, reminderNew), HttpStatus.OK);
+    }
+
+    /**
      * Получение списка с пагинацией, с параметрами
      *
      * @param current
@@ -35,7 +60,14 @@ public class ReminderController {
         return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
     }
 
-
+    /**
+     * Получение отсортированнного (title, date, time) списка с пагинацей
+     * @param current
+     * @param total
+     * @param by
+     * @param idUser
+     * @return
+     */
     @GetMapping("/sort/{idUser}")
     public ResponseEntity<ResponseResult<Page<Reminder>>> getSortedUsers(@RequestParam(defaultValue = "0") int current,
                                                                          @RequestParam(defaultValue = "10") int total,
@@ -48,7 +80,15 @@ public class ReminderController {
         return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
     }
 
-
+    /**
+     * Фильтрация списка для пользователя по времени, дате с пагинацией
+     * @param current
+     * @param total
+     * @param date
+     * @param time
+     * @param idUser
+     * @return
+     */
     @GetMapping("/filtr/{idUser}")
     public ResponseEntity<ResponseResult<Page<Reminder>>> getFilter(@RequestParam(defaultValue = "0") int current,
                                                                     @RequestParam(defaultValue = "10") int total,
@@ -62,17 +102,15 @@ public class ReminderController {
     }
 
 
-    /**
-     * Создание напоминания
-     *
-     * @param reminder
-     * @return
-     */
-    @PostMapping("/reminder/create/{idUser}")
-    public ResponseEntity<ResponseResult<Reminder>> add(@RequestBody Reminder reminder,
-                                                        @PathVariable("idUser") long idUser) {
-        reminderService.add(reminder, idUser);
-        return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
+
+    @GetMapping("/reminder/search/{idUser}")
+    public ResponseEntity<ResponseResult<List<Reminder>>> searchReminders(@RequestParam(value = "title", required = false) String title,
+                                                                          @RequestParam(value = "description", required = false) String description,
+                                                                          @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                                                          @RequestParam(value = "time", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+                                                                          @PathVariable("idUser") long idUser) {
+        List<Reminder> reminders = reminderService.searchReminders(title, description, date, time, idUser);
+        return new ResponseEntity<>(new ResponseResult<>(null, reminders), HttpStatus.OK);
     }
 
     /**
@@ -85,23 +123,6 @@ public class ReminderController {
     public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("id") long id, @PathVariable("idUser") long idUser) {
         Reminder reminder = reminderService.delete(id, idUser);
         return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
-    }
-
-
-    @GetMapping("/reminder/search/{idUser}")
-    public ResponseEntity<ResponseResult<List<Reminder>>> searchReminders(@RequestParam(value = "title", required = false) String title,
-                                                                          @RequestParam(value = "description", required = false) String description,
-                                                                          @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-                                                                          @RequestParam(value = "time", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
-                                                                          @PathVariable("idUser") long idUser) {
-        List<Reminder> reminders = reminderService.searchReminders(title, description, date, time, idUser);
-        return new ResponseEntity<>(new ResponseResult<>(null, reminders), HttpStatus.OK);
-    }
-
-    @PutMapping("/reminder/update/{idUser}")
-    public ResponseEntity<ResponseResult<Reminder>> updateReminder(@RequestBody Reminder reminder, @PathVariable("idUser") long idUser) {
-        Reminder reminderNew = reminderService.update(reminder, idUser);
-        return new ResponseEntity<>(new ResponseResult<>(null, reminderNew), HttpStatus.OK);
     }
 
 
