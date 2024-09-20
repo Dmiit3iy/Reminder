@@ -16,37 +16,40 @@ public class UserController {
 
     /**
      * Создание пользователя
+     *
      * @param user
      * @return
      */
 
     @PostMapping("/add")
-    public ResponseEntity<ResponseResult<User>> add(@RequestBody User user) {
+    public ResponseEntity<User> add(@RequestBody User user) {
         this.userService.add(user);
-        return new ResponseEntity<>(new ResponseResult<>(null, user), HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     /**
      * Получение пользовтеля по id
+     *
      * @param id
      * @return
      */
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseResult<User>> get(@PathVariable("id") long id) {
+    public ResponseEntity<User> get(@PathVariable("id") long id) {
         User user = this.userService.get(id);
-        return new ResponseEntity<>(new ResponseResult<>(null, user), HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     /**
      * Удаление пользователя
+     *
      * @param id
      * @return
      */
 
     @DeleteMapping("/id")
-    public ResponseEntity<ResponseResult<User>> delete(@PathVariable("id") long id) {
+    public ResponseEntity<User> delete(@PathVariable("id") long id) {
         User user = userService.delete(id);
-        return new ResponseEntity<>(new ResponseResult<>(null, user), HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
