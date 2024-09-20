@@ -11,10 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageReminderDTO {
-    private List<Reminder> reminderList;
+    private List<ReminderDTO> reminderList;
     private boolean isLastPage;
 
-    public PageReminderDTO(Page<Reminder> reminderPage) {
+    public PageReminderDTO(Page<ReminderDTO> reminderPage) {
         this.reminderList = reminderPage.getContent();
         this.isLastPage = reminderPage.isLast();
     }

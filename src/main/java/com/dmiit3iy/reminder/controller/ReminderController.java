@@ -1,5 +1,6 @@
 package com.dmiit3iy.reminder.controller;
 
+import com.dmiit3iy.reminder.DTO.MapperPageReminderDTO;
 import com.dmiit3iy.reminder.DTO.ResponseResult;
 import com.dmiit3iy.reminder.model.Reminder;
 import com.dmiit3iy.reminder.service.ReminderService;
@@ -19,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ReminderController {
     private final ReminderService reminderService;
+    private final MapperPageReminderDTO mapperPageReminderDTO;
 
     /**
      * Создание напоминания
@@ -35,6 +37,7 @@ public class ReminderController {
 
     /**
      * Обновление напоминания
+     *
      * @param reminder
      * @param idUser
      * @return
@@ -62,6 +65,7 @@ public class ReminderController {
 
     /**
      * Получение отсортированнного (title, date, time) списка с пагинацей
+     *
      * @param current
      * @param total
      * @param by
@@ -82,6 +86,7 @@ public class ReminderController {
 
     /**
      * Фильтрация списка для пользователя по времени, дате с пагинацией
+     *
      * @param current
      * @param total
      * @param date
@@ -100,7 +105,6 @@ public class ReminderController {
         Page<Reminder> pageRemind = reminderService.getFilter(current, total, date, time, idUser);
         return new ResponseEntity<>(new ResponseResult<>(null, pageRemind), HttpStatus.OK);
     }
-
 
 
     @GetMapping("/reminder/search/{idUser}")
@@ -127,11 +131,12 @@ public class ReminderController {
 
     /**
      * Удаление последнего напоминания пользователя
+     *
      * @param idUser
      * @return
      */
     @DeleteMapping("/reminder/delete/{idUser}")
-    public ResponseEntity<ResponseResult<Reminder>> delete( @PathVariable("idUser") long idUser) {
+    public ResponseEntity<ResponseResult<Reminder>> delete(@PathVariable("idUser") long idUser) {
         Reminder reminder = reminderService.delete(idUser);
         return new ResponseEntity<>(new ResponseResult<>(null, reminder), HttpStatus.OK);
     }
