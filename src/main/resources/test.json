@@ -1,0 +1,680 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/domain/api/v1/reminder/update/{idUser}": {
+      "put": {
+        "tags": [
+          "reminder-controller"
+        ],
+        "operationId": "updateReminder",
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reminder"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultReminder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/add": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "add",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domain/api/v1/reminder/create/{idUser}": {
+      "post": {
+        "tags": [
+          "reminder-controller"
+        ],
+        "operationId": "add_1",
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reminder"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultReminder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domain/api/v1/sort/{idUser}": {
+      "get": {
+        "tags": [
+          "reminder-controller"
+        ],
+        "operationId": "getSortedUsers",
+        "parameters": [
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "title"
+            }
+          },
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultPageReminder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domain/api/v1/reminder/search/{idUser}": {
+      "get": {
+        "tags": [
+          "reminder-controller"
+        ],
+        "operationId": "searchReminders",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultListReminder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domain/api/v1/list/{idUser}": {
+      "get": {
+        "tags": [
+          "reminder-controller"
+        ],
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            }
+          },
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultPageReminder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domain/api/v1/filtr/{idUser}": {
+      "get": {
+        "tags": [
+          "reminder-controller"
+        ],
+        "operationId": "getFilter",
+        "parameters": [
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultPageReminder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/id": {
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "delete",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domain/api/v1/reminder/delete/{id}/{idUser}": {
+      "delete": {
+        "tags": [
+          "reminder-controller"
+        ],
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultReminder"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domain/api/v1/reminder/delete/{idUser}": {
+      "delete": {
+        "tags": [
+          "reminder-controller"
+        ],
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseResultReminder"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Reminder": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "remind": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "send": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResponseResultReminder": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Reminder"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "telegram": {
+            "type": "string"
+          },
+          "chatId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "ResponseResultUser": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "PageReminder": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reminder"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageableObject": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
+          "paged": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResponseResultPageReminder": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageReminder"
+          }
+        }
+      },
+      "SortObject": {
+        "type": "object",
+        "properties": {
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResponseResultListReminder": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reminder"
+            }
+          }
+        }
+      }
+    }
+  }
+}
